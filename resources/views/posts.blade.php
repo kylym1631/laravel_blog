@@ -10,32 +10,18 @@
     <script src="/app.js"></script>
 </head>
 <body>
+
+    <?php foreach ($posts as $post):?>
     <article>
-        <h1><a href="/posts/my-first-post">My first post</a></h1>
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Alias architecto cupiditate doloribus eos et fuga fugiat magni
-            maxime minima modi molestias, non officia pariatur quae saepe suscipit,
-            veritatis voluptatibus. Voluptas?
-        </p>
+       <h1>
+           <a href="/posts/<?=$post->slug;?>">
+               <?=$post->title;?>
+           </a>
+       </h1>
+        <div>
+            <?=$post->excerpt;?>
+        </div>
     </article>
-    <article>
-        <h1><a href="/posts/my-second-post">My second post </a></h1>
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Alias architecto cupiditate doloribus eos et fuga fugiat magni
-            maxime minima modi molestias, non officia pariatur quae saepe suscipit,
-            veritatis voluptatibus. Voluptas?
-        </p>
-    </article>
-    <article>
-        <h1><a href="/posts/my-third-post">My third post</a></h1>
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Alias architecto cupiditate doloribus eos et fuga fugiat magni
-            maxime minima modi molestias, non officia pariatur quae saepe suscipit,
-            veritatis voluptatibus. Voluptas?
-        </p>
-    </article>
+    <?endforeach;?>
 </body>
 </html>
