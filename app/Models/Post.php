@@ -1,77 +1,28 @@
 <?php
 
-
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\File;
-use Spatie\YamlFrontMatter\YamlFrontMatter;
-
-class Post
+class Post extends Model
 {
-    public $title;
+    use HasFactory;
+    protected $guarded = [];
+//    protected $fillable = ['title','excerpt','body','id'];
 
-    public $excerpt;
+    protected $with = ['category','author'];
 
-    public $date;
-
-    public $body;
-    public $slug;
-
-    /**
-     * Post constructor.
-     * @param $title
-     * @param $excerpt
-     * @param $date
-     * @param $body
-     */
-    public function __construct($title, $excerpt, $date, $body, $slug)
+    public function category()
     {
-        $this->title = $title;
-        $this->excerpt = $excerpt;
-        $this->date = $date;
-        $this->body = $body;
-        $this->slug = $slug;
+        return $this->belongsTo(Category::class);
+    }
+
+    public function author()
+    {
+        return $this->belongsTo(User::class,'user_id');
     }
 
 
-    public static function all()
-    {
-        return cache()->rememberForever('posts.all',function (){
-            return collect(File::files(resource_path("posts")))
-                ->map(function ($file){
-                    return YamlFrontMatter::parseFile($file);
-                })
-                ->map(function ($document){
-                    return new Post(
-                        $document->title,
-                        $document->excerpt,
-                        $document->date,
-                        $document->body(),
-                        $document->slug
-                    );
-                })
-                ->sortByDesc('date');
-        });
-
-
-    }
-
-    public function find($slug)
-    {
-        return static::all()->firstWhere('slug',$slug);
-    }
-
-    public function findOrFail($slug)
-    {
-        $post = static::find($slug);
-
-        if (!$post)
-        {
-            throw new ModelNotFoundException();
-        }
-        return $post;
-
-    }
 }
+
