@@ -9,7 +9,6 @@ class Comment extends Model
 {
     use HasFactory;
 
-
     public function post()
     {
         return $this->belongsTo(Post::class);
@@ -17,6 +16,6 @@ class Comment extends Model
 
     public function author()
     {
-        return $this->belongsTo(User::class,'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
